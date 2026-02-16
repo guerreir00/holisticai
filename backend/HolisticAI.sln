@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolisticAI.API", "HolisticAI.API\HolisticAI.API.csproj", "{53B62424-0518-4349-801C-E980BC15E9F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolisticAI.Domain", "HolisticAI.Domain\HolisticAI.Domain.csproj", "{34E8D715-A104-4092-AF85-2BF66F41827C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolisticAI.Application", "HolisticAI.Application\HolisticAI.Application.csproj", "{F47880CF-E0E0-401B-A1FF-B772D699ED41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HolisticAI.Infrastructure", "HolisticAI.Infrastructure\HolisticAI.Infrastructure.csproj", "{2385AD84-5B9A-4E45-A866-E64AA7559B27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53B62424-0518-4349-801C-E980BC15E9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B62424-0518-4349-801C-E980BC15E9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B62424-0518-4349-801C-E980BC15E9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B62424-0518-4349-801C-E980BC15E9F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34E8D715-A104-4092-AF85-2BF66F41827C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34E8D715-A104-4092-AF85-2BF66F41827C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34E8D715-A104-4092-AF85-2BF66F41827C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34E8D715-A104-4092-AF85-2BF66F41827C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F47880CF-E0E0-401B-A1FF-B772D699ED41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F47880CF-E0E0-401B-A1FF-B772D699ED41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F47880CF-E0E0-401B-A1FF-B772D699ED41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F47880CF-E0E0-401B-A1FF-B772D699ED41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2385AD84-5B9A-4E45-A866-E64AA7559B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2385AD84-5B9A-4E45-A866-E64AA7559B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2385AD84-5B9A-4E45-A866-E64AA7559B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2385AD84-5B9A-4E45-A866-E64AA7559B27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

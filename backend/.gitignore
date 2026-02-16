@@ -1,0 +1,28 @@
+# =====================
+# .NET
+# =====================
+**/bin/
+**/obj/
+**/.vs/
+**/*.user
+**/*.suo
+
+# SQLite / DB local
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# Secrets / configs locais (se você criar)
+**/appsettings.Development.json
+
+# =====================
+# Node / React
+# =====================
+**/node_modules/
+**/dist/
+**/.vite/
+**/*.log
+
+# OS
+.DS_Store
+Thumbs.db
