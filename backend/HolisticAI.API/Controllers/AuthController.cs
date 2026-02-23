@@ -14,13 +14,12 @@ namespace HolisticAI.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _db;
+    private readonly IConfiguration _config;
 
-    // ⚠️ Mesma key do Program.cs (MVP). Depois a gente centraliza em appsettings.
-    private const string JwtKey = "HolisticAI_2026_SUPER_SECRET_KEY_LONGA_AQUI_987654321";
-
-    public AuthController(ApplicationDbContext db)
+    public AuthController(ApplicationDbContext db, IConfiguration config)
     {
         _db = db;
+        _config = config;
     }
 
     // ==========================
@@ -43,11 +42,16 @@ public class AuthController : ControllerBase
         var exists = await _db.Users.AnyAsync(u => u.Email.ToLower() == email);
         if (exists) return BadRequest("Email já está em uso.");
 
+        // 1) cria tenant
         var tenant = new Tenant
         {
             Nome = dto.TenantNome.Trim()
         };
 
+        _db.Tenants.Add(tenant);
+        await _db.SaveChangesAsync(); // garante tenant.Id
+
+        // 2) cria user owner
         var user = new User
         {
             TenantId = tenant.Id,
@@ -57,13 +61,12 @@ public class AuthController : ControllerBase
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
         };
 
-        _db.Tenants.Add(tenant);
         _db.Users.Add(user);
-
         await _db.SaveChangesAsync();
 
-        // retorna já logado
+        // 3) retorna já logado
         var token = GenerateJwt(user);
+
         return Ok(new
         {
             token,
@@ -85,7 +88,7 @@ public class AuthController : ControllerBase
 
         var email = dto.Email.Trim().ToLowerInvariant();
 
-        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email.ToLower() == email);
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email);
         if (user is null) return Unauthorized("Usuário ou senha inválidos.");
 
         var ok = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
@@ -100,8 +103,15 @@ public class AuthController : ControllerBase
         });
     }
 
-    private static string GenerateJwt(User user)
+    private string GenerateJwt(User user)
     {
+        var jwtKey = _config["Jwt:Key"];
+        var jwtIssuer = _config["Jwt:Issuer"];
+        var jwtAudience = _config["Jwt:Audience"];
+
+        if (string.IsNullOrWhiteSpace(jwtKey))
+            throw new Exception("Jwt:Key não configurado no appsettings.json");
+
         var claims = new List<Claim>
         {
             new Claim("userId", user.Id.ToString()),
@@ -111,10 +121,12 @@ public class AuthController : ControllerBase
             new Claim(ClaimTypes.Email, user.Email),
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
+            issuer: jwtIssuer,
+            audience: jwtAudience,
             claims: claims,
             expires: DateTime.UtcNow.AddHours(8),
             signingCredentials: creds
