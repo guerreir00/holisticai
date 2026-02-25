@@ -1,12 +1,17 @@
-import { api } from './api'
-import type { Paciente } from '../types/Paciente.ts'
+import api from "./api";
+import type { Paciente } from "../types/Paciente";
 
 export async function listarPacientes() {
-  const res = await api.get<Paciente[]>('/api/Pacientes')
-  return res.data
+  const { data } = await api.get<Paciente[]>("/api/pacientes");
+  return data;
 }
 
-export async function criarPaciente(payload: Omit<Paciente, 'id' | 'dataCadastro'>) {
-  const res = await api.post<Paciente>('/api/Pacientes', payload)
-  return res.data
+export type CriarPacientePayload = Omit<
+  Paciente,
+  "id" | "dataCadastro" | "tenantId"
+>;
+
+export async function criarPaciente(payload: CriarPacientePayload) {
+  const { data } = await api.post<Paciente>("/api/pacientes", payload);
+  return data;
 }

@@ -9,7 +9,7 @@ namespace HolisticAI.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] // 🔒 PROTEGIDO
+[Authorize(Policy = "OwnerOrSecretary")]
 public class PacientesController : ControllerBase
 {
     private readonly ApplicationDbContext _db;

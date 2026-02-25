@@ -1,4 +1,4 @@
-import { api } from './api'
+import  api  from './api'
 import type { CreateSessaoDto, Sessao } from '../types/Sessao'
 
 function toIsoDateOnly(date: Date) {

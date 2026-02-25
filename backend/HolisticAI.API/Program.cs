@@ -1,4 +1,5 @@
 using HolisticAI.API.Data;
+using HolisticAI.API.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -26,13 +27,22 @@ builder.Services.AddCors(options =>
     });
 });
 
-// JWT Config
-var jwtKey = builder.Configuration["Jwt:Key"];
-var jwtIssuer = builder.Configuration["Jwt:Issuer"];
-var jwtAudience = builder.Configuration["Jwt:Audience"];
+// ==========================
+// JWT (Options Pattern)
+// ==========================
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
-if (string.IsNullOrWhiteSpace(jwtKey))
-    throw new Exception("Jwt:Key não configurado no appsettings.json");
+var jwt = builder.Configuration.GetSection("Jwt").Get<JwtSettings>()
+          ?? throw new InvalidOperationException("Seção Jwt não encontrada (appsettings/UserSecrets).");
+
+if (string.IsNullOrWhiteSpace(jwt.Key))
+    throw new InvalidOperationException("Jwt:Key não configurado (adicione em User Secrets).");
+
+if (string.IsNullOrWhiteSpace(jwt.Issuer))
+    throw new InvalidOperationException("Jwt:Issuer não configurado no appsettings.json");
+
+if (string.IsNullOrWhiteSpace(jwt.Audience))
+    throw new InvalidOperationException("Jwt:Audience não configurado no appsettings.json");
 
 // AuthN + AuthZ
 builder.Services
@@ -42,20 +52,27 @@ builder.Services
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
 
             ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
+            ValidIssuer = jwt.Issuer,
 
             ValidateAudience = true,
-            ValidAudience = jwtAudience,
+            ValidAudience = jwt.Audience,
 
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(2)
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+    {   
+        options.AddPolicy("OwnerOnly", policy =>
+            policy.RequireRole("Owner"));
+
+        options.AddPolicy("OwnerOrSecretary", policy =>
+            policy.RequireRole("Owner", "Secretary"));
+    });
 
 // Swagger + Bearer
 builder.Services.AddEndpointsApiExplorer();
@@ -91,7 +108,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Cria DB no dev (MVP)
+// MVP: cria DB no dev
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -105,12 +122,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("frontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

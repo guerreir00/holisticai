@@ -1,7 +1,9 @@
 using HolisticAI.API.Data;
+using HolisticAI.API.Infrastructure;
 using HolisticAI.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,18 +16,22 @@ namespace HolisticAI.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _db;
-    private readonly IConfiguration _config;
+    private readonly JwtSettings _jwt;
 
-    public AuthController(ApplicationDbContext db, IConfiguration config)
+    public AuthController(ApplicationDbContext db, IOptions<JwtSettings> jwtOptions)
     {
         _db = db;
-        _config = config;
+        _jwt = jwtOptions.Value;
+
+        if (string.IsNullOrWhiteSpace(_jwt.Key))
+            throw new InvalidOperationException("Jwt:Key não configurado (User Secrets).");
+        if (string.IsNullOrWhiteSpace(_jwt.Issuer))
+            throw new InvalidOperationException("Jwt:Issuer não configurado.");
+        if (string.IsNullOrWhiteSpace(_jwt.Audience))
+            throw new InvalidOperationException("Jwt:Audience não configurado.");
+        if (_jwt.ExpHours <= 0) _jwt.ExpHours = 8;
     }
 
-    // ==========================
-    // POST /api/auth/register
-    // Cria Tenant + User Owner
-    // ==========================
     public record RegisterDto(string TenantNome, string Nome, string Email, string Password);
 
     [HttpPost("register")]
@@ -42,29 +48,23 @@ public class AuthController : ControllerBase
         var exists = await _db.Users.AnyAsync(u => u.Email.ToLower() == email);
         if (exists) return BadRequest("Email já está em uso.");
 
-        // 1) cria tenant
-        var tenant = new Tenant
-        {
-            Nome = dto.TenantNome.Trim()
-        };
-
+        var tenant = new Tenant { Nome = dto.TenantNome.Trim() };
         _db.Tenants.Add(tenant);
-        await _db.SaveChangesAsync(); // garante tenant.Id
+        await _db.SaveChangesAsync();
 
-        // 2) cria user owner
         var user = new User
         {
             TenantId = tenant.Id,
             Nome = dto.Nome.Trim(),
             Email = email,
             Role = "Owner",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+            Ativo = true
         };
 
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
 
-        // 3) retorna já logado
         var token = GenerateJwt(user);
 
         return Ok(new
@@ -75,9 +75,6 @@ public class AuthController : ControllerBase
         });
     }
 
-    // ==========================
-    // POST /api/auth/login
-    // ==========================
     public record LoginDto(string Email, string Password);
 
     [HttpPost("login")]
@@ -90,6 +87,7 @@ public class AuthController : ControllerBase
 
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email);
         if (user is null) return Unauthorized("Usuário ou senha inválidos.");
+        if (!user.Ativo) return Unauthorized("Usuário inativo.");
 
         var ok = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
         if (!ok) return Unauthorized("Usuário ou senha inválidos.");
@@ -105,13 +103,6 @@ public class AuthController : ControllerBase
 
     private string GenerateJwt(User user)
     {
-        var jwtKey = _config["Jwt:Key"];
-        var jwtIssuer = _config["Jwt:Issuer"];
-        var jwtAudience = _config["Jwt:Audience"];
-
-        if (string.IsNullOrWhiteSpace(jwtKey))
-            throw new Exception("Jwt:Key não configurado no appsettings.json");
-
         var claims = new List<Claim>
         {
             new Claim("userId", user.Id.ToString()),
@@ -121,14 +112,14 @@ public class AuthController : ControllerBase
             new Claim(ClaimTypes.Email, user.Email),
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: jwtIssuer,
-            audience: jwtAudience,
+            issuer: _jwt.Issuer,
+            audience: _jwt.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(8),
+            expires: DateTime.UtcNow.AddHours(_jwt.ExpHours),
             signingCredentials: creds
         );
 

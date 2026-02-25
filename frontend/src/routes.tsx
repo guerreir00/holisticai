@@ -1,21 +1,41 @@
-import { createBrowserRouter } from 'react-router-dom'
-import { AppLayout } from './layouts/AppLayout'
-import { DashboardPage } from './pages/Dashboard'
-import { PacientesPage } from './pages/Pacientes'
-import { AgendaPage } from './pages/Agenda'
-import { ProntuariosPage } from './pages/Prontuarios'
-import { InsightsPage } from './pages/Insights'
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import PrivateRoute from "./routes/PrivateRoute";
+
+import { AppLayout } from "./layouts/AppLayout";
+import LoginPage from "./pages/LoginPage";
+
+import { DashboardPage } from "./pages/Dashboard";
+import { PacientesPage } from "./pages/Pacientes";
+import { AgendaPage } from "./pages/Agenda";
+import { ProntuariosPage } from "./pages/Prontuarios";
+import { InsightsPage } from "./pages/Insights";
 
 export const router = createBrowserRouter([
+  // ✅ rota pública
   {
-    path: '/',
-    element: <AppLayout />,
+    path: "/login",
+    element: <LoginPage />,
+  },
+
+  // ✅ rotas protegidas
+  {
+    path: "/",
+    element: <PrivateRoute />,
     children: [
-      { index: true, element: <DashboardPage /> },
-      { path: 'pacientes', element: <PacientesPage /> },
-      { path: 'agenda', element: <AgendaPage /> },
-      { path: 'prontuarios', element: <ProntuariosPage /> },
-      { path: 'insights', element: <InsightsPage /> }
-    ]
-  }
-])
+      {
+        element: <AppLayout />,
+        children: [
+          { index: true, element: <DashboardPage /> },
+          { path: "dashboard", element: <DashboardPage /> },
+          { path: "pacientes", element: <PacientesPage /> },
+          { path: "agenda", element: <AgendaPage /> },
+          { path: "prontuarios", element: <ProntuariosPage /> },
+          { path: "insights", element: <InsightsPage /> },
+
+          // fallback
+          { path: "*", element: <Navigate to="/dashboard" replace /> },
+        ],
+      },
+    ],
+  },
+]);

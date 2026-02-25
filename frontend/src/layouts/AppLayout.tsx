@@ -1,101 +1,101 @@
-import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { clearAuth, getUser } from "../auth/authStore";
 
 const linkBase: React.CSSProperties = {
-  padding: '10px 12px',
+  padding: "10px 12px",
   borderRadius: 10,
-  textDecoration: 'none',
-  color: '#111',
-  display: 'block'
-}
+  textDecoration: "none",
+  color: "#111",
+  display: "block",
+};
 
 const activeStyle: React.CSSProperties = {
   ...linkBase,
-  background: '#f3e8ff',
-  border: '1px solid #e9d5ff'
-}
+  background: "#f3e8ff",
+  border: "1px solid #e9d5ff",
+};
 
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <aside style={{ borderRight: '1px solid #eee', padding: 16, background: '#fff', height: '100%' }}>
+    <aside
+      style={{
+        borderRight: "1px solid #eee",
+        padding: 16,
+        background: "#fff",
+        height: "100%",
+      }}
+    >
       {/* Brand */}
-      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 16 }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 10,
+          alignItems: "center",
+          marginBottom: 16,
+        }}
+      >
         <div
           style={{
             width: 38,
             height: 38,
             borderRadius: 12,
-            background: '#7c3aed',
-            display: 'grid',
-            placeItems: 'center',
-            color: 'white',
-            fontWeight: 900
+            background: "#7c3aed",
+            display: "grid",
+            placeItems: "center",
+            color: "white",
+            fontWeight: 900,
           }}
         >
           H
         </div>
         <div>
           <div style={{ fontWeight: 900, fontSize: 16 }}>HolisticAI</div>
-          <div style={{ fontSize: 12, color: '#666' }}>Terapia & IA</div>
+          <div style={{ fontSize: 12, color: "#666" }}>Terapia & IA</div>
         </div>
       </div>
 
-      <nav style={{ display: 'grid', gap: 6 }}>
-        <NavLink
-          to="/"
-          end
-          style={({ isActive }) => (isActive ? activeStyle : linkBase)}
-          onClick={onNavigate}
-        >
+      <nav style={{ display: "grid", gap: 6 }}>
+        <NavLink to="/" end style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
           Dashboard
         </NavLink>
 
-        <NavLink
-          to="/pacientes"
-          style={({ isActive }) => (isActive ? activeStyle : linkBase)}
-          onClick={onNavigate}
-        >
+        <NavLink to="/pacientes" style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
           Pacientes
         </NavLink>
 
-        <NavLink
-          to="/agenda"
-          style={({ isActive }) => (isActive ? activeStyle : linkBase)}
-          onClick={onNavigate}
-        >
+        <NavLink to="/agenda" style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
           Agenda
         </NavLink>
 
-        <NavLink
-          to="/prontuarios"
-          style={({ isActive }) => (isActive ? activeStyle : linkBase)}
-          onClick={onNavigate}
-        >
+        <NavLink to="/prontuarios" style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
           Prontuários
         </NavLink>
 
-        <NavLink
-          to="/insights"
-          style={({ isActive }) => (isActive ? activeStyle : linkBase)}
-          onClick={onNavigate}
-        >
+        <NavLink to="/insights" style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
           Insights IA
         </NavLink>
       </nav>
 
-      <div style={{ marginTop: 24, fontSize: 12, color: '#666' }}>
+      <div style={{ marginTop: 24, fontSize: 12, color: "#666" }}>
         v0.1 • Dev
       </div>
     </aside>
-  )
+  );
 }
 
 export function AppLayout() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const nav = useNavigate();
+  const user = getUser();
+
+  function handleLogout() {
+    clearAuth();
+    nav("/login");
+  }
 
   return (
     <div>
-      {/* CSS responsivo inline (sem Tailwind) */}
       <style>
         {`
           .layout {
@@ -123,8 +123,6 @@ export function AppLayout() {
             border-radius: 14px;
             padding: 18px;
           }
-
-          /* MOBILE */
           .mobileMenuBtn { display: none; }
 
           @media (max-width: 900px) {
@@ -135,7 +133,6 @@ export function AppLayout() {
             .mobileMenuBtn { display: inline-flex; }
           }
 
-          /* Drawer do menu no mobile */
           .drawerOverlay {
             position: fixed;
             inset: 0;
@@ -163,28 +160,54 @@ export function AppLayout() {
         <main>
           {/* Topbar */}
           <header className="topbar">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                {/* Botão menu (aparece só no mobile) */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <button
                   className="mobileMenuBtn"
                   onClick={() => setMobileMenuOpen(true)}
                   style={{
-                    border: '1px solid #eee',
-                    background: '#fff',
+                    border: "1px solid #eee",
+                    background: "#fff",
                     borderRadius: 10,
-                    padding: '8px 10px',
-                    cursor: 'pointer'
+                    padding: "8px 10px",
+                    cursor: "pointer",
                   }}
-                  aria-label="Abrir menu"
                 >
                   ☰
                 </button>
 
-                <div style={{ fontWeight: 700 }}>Sistema de Terapia Holística</div>
+                <div style={{ fontWeight: 700 }}>
+                  Sistema de Terapia Holística
+                </div>
               </div>
 
-              <div style={{ fontSize: 13, color: '#444' }}>Terapeuta</div>
+              {/* Usuário logado + Logout */}
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ fontSize: 13, color: "#444" }}>
+                  {user?.nome ?? "Usuário"} ({user?.role ?? ""})
+                </div>
+
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    border: "1px solid #eee",
+                    background: "#fff",
+                    borderRadius: 10,
+                    padding: "8px 12px",
+                    cursor: "pointer",
+                    fontSize: 13,
+                  }}
+                >
+                  Sair
+                </button>
+              </div>
             </div>
           </header>
 
@@ -197,25 +220,33 @@ export function AppLayout() {
         </main>
       </div>
 
-      {/* Drawer (menu mobile) */}
+      {/* Drawer mobile */}
       {mobileMenuOpen && (
         <div
           className="drawerOverlay"
           onClick={() => setMobileMenuOpen(false)}
-          role="button"
-          aria-label="Fechar menu"
         >
-          <div className="drawerPanel" onClick={(e) => e.stopPropagation()}>
-            <div style={{ padding: 12, borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between' }}>
+          <div
+            className="drawerPanel"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              style={{
+                padding: 12,
+                borderBottom: "1px solid #eee",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
               <div style={{ fontWeight: 900 }}>Menu</div>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 style={{
-                  border: '1px solid #eee',
-                  background: '#fff',
+                  border: "1px solid #eee",
+                  background: "#fff",
                   borderRadius: 10,
-                  padding: '6px 10px',
-                  cursor: 'pointer'
+                  padding: "6px 10px",
+                  cursor: "pointer",
                 }}
               >
                 ✕
@@ -227,5 +258,5 @@ export function AppLayout() {
         </div>
       )}
     </div>
-  )
+  );
 }

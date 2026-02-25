@@ -9,7 +9,7 @@ namespace HolisticAI.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] // 🔒 PROTEGIDO POR JWT
+[Authorize(Policy = "OwnerOnly")]
 public class SessoesController : ControllerBase
 {
     private readonly ApplicationDbContext _db;

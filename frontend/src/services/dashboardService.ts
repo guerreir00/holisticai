@@ -1,4 +1,4 @@
-import { api } from './api'
+import api from "./api";
 import type { Paciente } from '../types/Paciente.ts'
 
 export async function getTotalPacientes() {
