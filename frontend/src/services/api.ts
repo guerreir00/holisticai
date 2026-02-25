@@ -1,9 +1,10 @@
 import axios from "axios";
+import { clearAuth } from "../auth/authStore";
 
 const baseURL = import.meta.env.VITE_API_URL ?? "http://localhost:5109";
 
 const api = axios.create({
-  baseURL, // ✅ sem /api
+  baseURL, 
 });
 
 // Interceptor: adiciona Bearer automaticamente
@@ -12,6 +13,18 @@ api.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
+
+// ✅ novo: se der 401, desloga e manda pro /login
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err?.response?.status === 401) {
+      clearAuth();
+      window.location.href = "/login";
+    }
+    return Promise.reject(err);
+  }
+);
 
 // (opcional) Normaliza erro pra UI
 export function getApiErrorMessage(err: any): string {
@@ -22,5 +35,6 @@ export function getApiErrorMessage(err: any): string {
     "Erro inesperado."
   );
 }
+
 
 export default api;

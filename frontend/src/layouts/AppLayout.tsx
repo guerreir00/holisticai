@@ -16,7 +16,9 @@ const activeStyle: React.CSSProperties = {
   border: "1px solid #e9d5ff",
 };
 
-function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+function Sidebar({ user, onNavigate }: { user: any; onNavigate?: () => void }) {
+  const role = user?.role;
+
   return (
     <aside
       style={{
@@ -27,14 +29,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       }}
     >
       {/* Brand */}
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-          alignItems: "center",
-          marginBottom: 16,
-        }}
-      >
+      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 16 }}>
         <div
           style={{
             width: 38,
@@ -75,11 +70,16 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         <NavLink to="/insights" style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
           Insights IA
         </NavLink>
+
+        {/* ✅ Só Owner vê */}
+        {role === "Owner" && (
+          <NavLink to="/users" style={({ isActive }) => (isActive ? activeStyle : linkBase)} onClick={onNavigate}>
+            Usuários
+          </NavLink>
+        )}
       </nav>
 
-      <div style={{ marginTop: 24, fontSize: 12, color: "#666" }}>
-        v0.1 • Dev
-      </div>
+      <div style={{ marginTop: 24, fontSize: 12, color: "#666" }}>v0.1 • Dev</div>
     </aside>
   );
 }
@@ -123,6 +123,8 @@ export function AppLayout() {
             border-radius: 14px;
             padding: 18px;
           }
+
+          /* MOBILE */
           .mobileMenuBtn { display: none; }
 
           @media (max-width: 900px) {
@@ -133,6 +135,7 @@ export function AppLayout() {
             .mobileMenuBtn { display: inline-flex; }
           }
 
+          /* Drawer do menu no mobile */
           .drawerOverlay {
             position: fixed;
             inset: 0;
@@ -153,22 +156,16 @@ export function AppLayout() {
       <div className="layout">
         {/* Sidebar desktop */}
         <div className="sidebar-desktop">
-          <Sidebar />
+          <Sidebar user={user} />
         </div>
 
         {/* Main */}
         <main>
           {/* Topbar */}
           <header className="topbar">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {/* Botão menu (aparece só no mobile) */}
                 <button
                   className="mobileMenuBtn"
                   onClick={() => setMobileMenuOpen(true)}
@@ -179,19 +176,18 @@ export function AppLayout() {
                     padding: "8px 10px",
                     cursor: "pointer",
                   }}
+                  aria-label="Abrir menu"
                 >
                   ☰
                 </button>
 
-                <div style={{ fontWeight: 700 }}>
-                  Sistema de Terapia Holística
-                </div>
+                <div style={{ fontWeight: 700 }}>Sistema de Terapia Holística</div>
               </div>
 
               {/* Usuário logado + Logout */}
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ fontSize: 13, color: "#444" }}>
-                  {user?.nome ?? "Usuário"} ({user?.role ?? ""})
+                  {user?.nome ?? "Usuário"} {user?.role ? `(${user.role})` : ""}
                 </div>
 
                 <button
@@ -220,16 +216,15 @@ export function AppLayout() {
         </main>
       </div>
 
-      {/* Drawer mobile */}
+      {/* Drawer (menu mobile) */}
       {mobileMenuOpen && (
         <div
           className="drawerOverlay"
           onClick={() => setMobileMenuOpen(false)}
+          role="button"
+          aria-label="Fechar menu"
         >
-          <div
-            className="drawerPanel"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="drawerPanel" onClick={(e) => e.stopPropagation()}>
             <div
               style={{
                 padding: 12,
@@ -253,7 +248,7 @@ export function AppLayout() {
               </button>
             </div>
 
-            <Sidebar onNavigate={() => setMobileMenuOpen(false)} />
+            <Sidebar user={user} onNavigate={() => setMobileMenuOpen(false)} />
           </div>
         </div>
       )}

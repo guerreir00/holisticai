@@ -9,6 +9,7 @@ import { PacientesPage } from "./pages/Pacientes";
 import { AgendaPage } from "./pages/Agenda";
 import { ProntuariosPage } from "./pages/Prontuarios";
 import { InsightsPage } from "./pages/Insights";
+import { UsersPage } from "./pages/Users";
 
 export const router = createBrowserRouter([
   // ✅ rota pública
@@ -31,6 +32,7 @@ export const router = createBrowserRouter([
           { path: "agenda", element: <AgendaPage /> },
           { path: "prontuarios", element: <ProntuariosPage /> },
           { path: "insights", element: <InsightsPage /> },
+          { path: "users", element: <UsersPage /> },
 
           // fallback
           { path: "*", element: <Navigate to="/dashboard" replace /> },
