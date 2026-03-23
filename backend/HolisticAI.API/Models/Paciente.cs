@@ -21,9 +21,11 @@ public class Paciente
 
     [MaxLength(1000)]
     public string? Observacoes { get; set; }
-
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
-
+    public string? Terapia { get; set; }          // Ex: Reiki, Acupuntura
+    public string Status { get; set; } = "Ativo"; // Ativo | Inativo | Aguardando
+    public DateTime? UltimaVisita { get; set; }   // para mostrar no card
     // 🔥 RELAÇÃO COM SESSÕES
     public ICollection<Sessao> Sessoes { get; set; } = new List<Sessao>();
+    public CadastroPacienteDetalhado? CadastroDetalhado { get; set; }
 }

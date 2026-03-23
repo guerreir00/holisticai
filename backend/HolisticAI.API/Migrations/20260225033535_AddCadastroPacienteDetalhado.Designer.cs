@@ -3,6 +3,7 @@ using System;
 using HolisticAI.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HolisticAI.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260225033535_AddCadastroPacienteDetalhado")]
+    partial class AddCadastroPacienteDetalhado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -24,10 +27,6 @@ namespace HolisticAI.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CPF")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DataCadastro")
@@ -37,42 +36,33 @@ namespace HolisticAI.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Endereco")
-                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EstadoCivil")
-                        .HasMaxLength(80)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FamiliaOrigem")
-                        .HasMaxLength(3000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MotivoPrincipal")
-                        .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PacienteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Profissao")
-                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Religiao")
-                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RotinaAtual")
-                        .HasMaxLength(3000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SaudeMedicacao")
-                        .HasMaxLength(3000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("VeioAtravesDe")
-                        .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
