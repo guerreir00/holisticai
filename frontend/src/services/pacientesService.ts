@@ -1,17 +1,22 @@
 import api from "./api";
 import type { Paciente } from "../types/Paciente";
 
+export type PacienteCreateDto = {
+  nome: string;
+  email?: string | null;
+  telefone?: string | null;
+  observacoes?: string | null;
+  dataNascimento?: string | null; // yyyy-mm-dd
+  terapia?: string | null;
+  status?: "Ativo" | "Aguardando" | "Inativo";
+};
+
 export async function listarPacientes() {
-  const { data } = await api.get<Paciente[]>("/api/pacientes");
-  return data;
+  const res = await api.get<Paciente[]>("/Pacientes");
+  return res.data;
 }
 
-export type CriarPacientePayload = Omit<
-  Paciente,
-  "id" | "dataCadastro" | "tenantId"
->;
-
-export async function criarPaciente(payload: CriarPacientePayload) {
-  const { data } = await api.post<Paciente>("/api/pacientes", payload);
-  return data;
+export async function criarPaciente(payload: PacienteCreateDto) {
+  const res = await api.post<Paciente>("/Pacientes", payload);
+  return res.data;
 }

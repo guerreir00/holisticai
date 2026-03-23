@@ -1,7 +1,7 @@
 import axios from "axios";
 import { clearAuth } from "../auth/authStore";
 
-const baseURL = import.meta.env.VITE_API_URL ?? "http://localhost:5109";
+const baseURL = import.meta.env.VITE_API_URL ?? "http://localhost:5109/";
 
 const api = axios.create({
   baseURL, 

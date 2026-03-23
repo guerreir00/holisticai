@@ -11,6 +11,10 @@ import { ProntuariosPage } from "./pages/Prontuarios";
 import { InsightsPage } from "./pages/Insights";
 import { UsersPage } from "./pages/Users";
 
+// ✅ NOVO
+import  PacienteNovoPage  from "./pages/PacienteNovo";
+import  CadastroPacientePage from "./pages/CadastroPaciente";
+
 export const router = createBrowserRouter([
   // ✅ rota pública
   {
@@ -28,7 +32,16 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardPage /> },
           { path: "dashboard", element: <DashboardPage /> },
+
+          // ✅ pacientes
           { path: "pacientes", element: <PacientesPage /> },
+
+          // ✅ NOVO: tela “Novo Paciente” (igual protótipo)
+          { path: "pacientes/novo", element: <PacienteNovoPage /> },
+
+          // ✅ NOVO: cadastro completo por paciente (quando você quiser editar depois)
+          { path: "pacientes/:id/cadastro", element: <CadastroPacientePage /> },
+
           { path: "agenda", element: <AgendaPage /> },
           { path: "prontuarios", element: <ProntuariosPage /> },
           { path: "insights", element: <InsightsPage /> },

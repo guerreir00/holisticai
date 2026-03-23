@@ -1,0 +1,258 @@
+.pc-wrapper h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.pc-wrapper p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(17,24,39,0.6);
+}
+
+/* Header */
+.pc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pc-primaryBtn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Search */
+.pc-search input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(17,24,39,0.1);
+  background: #f9fafb;
+  margin-bottom: 20px;
+}
+
+/* Grid */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+/* Card */
+.pc-card {
+  background: #fff;
+  border: 1px solid rgba(17,24,39,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(17,24,39,0.06);
+}
+
+.pc-cardTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pc-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.pc-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pc-info span {
+  font-size: 12px;
+  color: rgba(17,24,39,0.6);
+}
+
+.pc-status {
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.pc-status.ativo {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Body */
+.pc-cardBody {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(17,24,39,0.06);
+}
+
+.pc-cardBody small {
+  font-size: 11px;
+  color: rgba(17,24,39,0.55);
+}
+
+.pc-cardActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pc-secondaryBtn {
+  flex: 1;
+  background: #f3f4f6;
+  border: 1px solid rgba(17,24,39,0.1);
+  border-radius: 10px;
+  padding: 8px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pc-outlineBtn {
+  flex: 1;
+  background: #fff;
+  border: 1px solid rgba(17,24,39,0.1);
+  border-radius: 10px;
+  padding: 8px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ----- melhorias visual protótipo ----- */
+.pc-meta{
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(17,24,39,0.06);
+  display: grid;
+  gap: 8px;
+}
+.pc-metaRow{
+  display:flex;
+  gap: 10px;
+  color: rgba(17,24,39,0.65);
+  font-size: 12px;
+}
+
+/* status */
+.pc-status.aguardando{
+  background: #fef9c3;
+  color: #854d0e;
+}
+.pc-status.inativo{
+  background: #f3f4f6;
+  color: rgba(17,24,39,0.70);
+}
+
+/* ----- MODAL ----- */
+.pc-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(17,24,39,0.35);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.pc-modal{
+  width: min(720px, 94vw);
+  background: #fff;
+  border: 1px solid rgba(17,24,39,0.10);
+  border-radius: 18px;
+  box-shadow: 0 18px 60px rgba(17,24,39,0.25);
+  overflow: hidden;
+}
+
+.pc-modalTop{
+  display:flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgba(17,24,39,0.08);
+  background: rgba(124,58,237,0.04);
+}
+
+.pc-modalTitle{
+  font-weight: 900;
+  font-size: 16px;
+}
+.pc-modalSub{
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(17,24,39,0.60);
+}
+
+.pc-xBtn{
+  border: 1px solid rgba(17,24,39,0.10);
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.pc-form{
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.pc-form label{
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(17,24,39,0.78);
+  display:grid;
+  gap: 6px;
+}
+
+.pc-form input,
+.pc-form select,
+.pc-form textarea{
+  border: 1px solid rgba(17,24,39,0.10);
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  outline: none;
+  font-size: 13px;
+}
+
+.pc-row2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 720px){
+  .pc-row2{ grid-template-columns: 1fr; }
+}
+
+.pc-error{
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  background: rgba(239, 68, 68, 0.08);
+  color: rgba(17,24,39,0.85);
+  font-size: 12px;
+}
+
+.pc-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}

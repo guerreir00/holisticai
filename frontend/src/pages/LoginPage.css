@@ -1,0 +1,240 @@
+.lg-bg{
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 600px at 85% 55%, rgba(59,130,246,0.35), transparent 55%),
+    radial-gradient(700px 520px at 15% 25%, rgba(168,85,247,0.18), transparent 55%),
+    linear-gradient(180deg, #f6f8ff, #f3f8ff 40%, #f1f6ff);
+}
+
+.lg-card{
+  width: min(440px, 92vw);
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 14px 40px rgba(17, 24, 39, 0.12);
+  padding: 26px 26px 20px;
+}
+
+.lg-top{
+  text-align: center;
+}
+
+.lg-iconWrap{
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+}
+.lg-icon{
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 22px;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  box-shadow: 0 14px 28px rgba(124,58,237,0.22);
+}
+
+.lg-title{
+  margin: 8px 0 6px;
+  font-size: 28px;
+  font-weight: 900;
+  color: #6d28d9;
+  letter-spacing: 0.2px;
+}
+
+.lg-subtitle{
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.65);
+}
+
+.lg-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.lg-social{
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.lg-socialBtn{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.10);
+  background: #fff;
+  color: rgba(17, 24, 39, 0.88);
+  font-weight: 800;
+  cursor: not-allowed; /* por enquanto */
+}
+
+.lg-socialIcon{
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(17, 24, 39, 0.10);
+  background: rgba(17, 24, 39, 0.04);
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.lg-divider{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 0;
+}
+.lg-divider span{
+  flex: 1;
+  height: 1px;
+  background: rgba(17, 24, 39, 0.10);
+}
+.lg-divider small{
+  font-size: 11px;
+  color: rgba(17, 24, 39, 0.55);
+  letter-spacing: 0.5px;
+}
+
+.lg-form{
+  margin-top: 16px;
+}
+
+.lg-label{
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(17, 24, 39, 0.80);
+  margin-bottom: 6px;
+}
+
+.lg-inputWrap{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.10);
+  background: rgba(17, 24, 39, 0.04);
+}
+
+.lg-inputIcon{
+  opacity: 0.65;
+}
+
+.lg-input{
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: rgba(17, 24, 39, 0.88);
+  font-size: 13px;
+}
+
+.lg-eyeBtn{
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: 16px;
+}
+
+.lg-row{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.lg-check{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.60);
+}
+
+.lg-link{
+  border: none;
+  background: transparent;
+  color: #7c3aed;
+  font-weight: 800;
+  cursor: not-allowed;
+}
+
+.lg-error{
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  background: rgba(239, 68, 68, 0.08);
+  color: rgba(17, 24, 39, 0.90);
+  font-size: 12px;
+}
+
+.lg-submit{
+  margin-top: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(124,58,237,0.20);
+}
+
+.lg-submit:disabled{
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.lg-demo{
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: rgba(37, 99, 235, 0.08);
+  color: rgba(17, 24, 39, 0.70);
+  font-size: 12px;
+}
+
+.lg-bottom{
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.60);
+}
+.lg-bottomLink{
+  color: #7c3aed;
+  font-weight: 900;
+  cursor: default;
+}
+
+.lg-footer{
+  margin-top: 14px;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(17, 24, 39, 0.45);
+}
