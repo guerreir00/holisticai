@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import { setAuth } from "../auth/authStore";
+import logoCliniMind from "../assets/clinimind-logo.jpeg";
 import "./LoginPage.css";
 
 export default function LoginPage() {
@@ -22,8 +23,6 @@ export default function LoginPage() {
 
     try {
       const data = await login(email, password);
-
-      // mantém seu store; "remember" pode virar sessionStorage no futuro
       setAuth(data.token, data.user);
       nav("/dashboard");
     } catch (err: any) {
@@ -37,14 +36,14 @@ export default function LoginPage() {
     <div className="lg-bg">
       <div className="lg-card">
         <div className="lg-top">
-          <div className="lg-iconWrap">
-            <div className="lg-icon">🧠</div>
+          <div className="lg-logoWrap">
+            <img src={logoCliniMind} alt="CliniMind" className="lg-logoImg" />
           </div>
 
-          <h1 className="lg-title">Terapia Holística IA</h1>
-          <p className="lg-subtitle">Sistema Inteligente de Gestão Terapêutica</p>
+          <h1 className="lg-title">CliniMind</h1>
+          <p className="lg-subtitle">Inteligência para o Cuidado</p>
 
-          <div className="lg-badge">⚡ Powered by AI</div>
+          <div className="lg-badge">✦ Inteligência ativa</div>
         </div>
 
         <div className="lg-social">
@@ -78,9 +77,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <label className="lg-label" style={{ marginTop: 12 }}>
-            Senha
-          </label>
+          <label className="lg-label lg-labelMargin">Senha</label>
           <div className="lg-inputWrap">
             <span className="lg-inputIcon">🔒</span>
             <input
@@ -95,7 +92,7 @@ export default function LoginPage() {
               type="button"
               className="lg-eyeBtn"
               onClick={() => setShowPass((v) => !v)}
-              aria-label="Mostrar/ocultar senha"
+              aria-label="Mostrar ou ocultar senha"
             >
               👁
             </button>
@@ -103,7 +100,11 @@ export default function LoginPage() {
 
           <div className="lg-row">
             <label className="lg-check">
-              <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
               Lembrar-me
             </label>
 
@@ -119,7 +120,7 @@ export default function LoginPage() {
           </button>
 
           <div className="lg-demo">
-            <strong>Demo:</strong> Clique em qualquer botão para acessar o sistema
+            <strong>Observação:</strong> acesso social ficará disponível em versões futuras.
           </div>
 
           <div className="lg-bottom">
@@ -127,7 +128,7 @@ export default function LoginPage() {
           </div>
 
           <div className="lg-footer">
-            © 2026 Terapia Holística IA • Todos os direitos reservados
+            © 2026 CliniMind • Todos os direitos reservados
           </div>
         </form>
       </div>

@@ -1,0 +1,358 @@
+.pr-page {
+  padding: 0;
+}
+
+.pr-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.pr-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pr-sub {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.pr-headActions {
+  display: flex;
+  gap: 12px;
+}
+
+.pr-patientCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid rgba(14, 165, 164, 0.14);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+}
+
+.pr-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0ea5a4, #1d9bd1);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.pr-patientInfo {
+  flex: 1;
+}
+
+.pr-patientName {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pr-patientMeta {
+  margin-top: 4px;
+  color: #64748b;
+}
+
+.pr-patientSessions {
+  text-align: right;
+  min-width: 140px;
+}
+
+.pr-patientSessions span {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.pr-patientSessions strong {
+  font-size: 28px;
+  color: #0b7f86;
+}
+
+.pr-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.pr-tab {
+  border: 1px solid #d9e5ef;
+  background: #fff;
+  border-radius: 999px;
+  padding: 10px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.pr-tab.active {
+  background: linear-gradient(135deg, #0b7f86, #1272a4);
+  color: #fff;
+  border-color: transparent;
+}
+
+.pr-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 18px;
+}
+
+.pr-historyWrap {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 18px;
+}
+
+.pr-card {
+  background: #fff;
+  border: 1px solid rgba(14, 165, 164, 0.12);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+}
+
+.pr-cardTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pr-cardSub {
+  margin: 6px 0 18px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.pr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.pr-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.pr-field input,
+.pr-field textarea {
+  width: 100%;
+  border: 1px solid #dbe4ee;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  box-sizing: border-box;
+  background: #fbfeff;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.pr-field input:focus,
+.pr-field textarea:focus {
+  border-color: #0ea5a4;
+  box-shadow: 0 0 0 3px rgba(14, 165, 164, 0.10);
+  background: #fff;
+}
+
+.pr-chakraGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.pr-primary,
+.pr-secondary {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pr-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #0b7f86, #1272a4);
+  color: #fff;
+}
+
+.pr-primary:hover {
+  filter: brightness(1.03);
+}
+
+.pr-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.pr-secondary {
+  background: #fff;
+  color: #0b7f86;
+  border: 1px solid rgba(14, 165, 164, 0.18);
+}
+
+.pr-secondary:hover {
+  background: #f2fcfb;
+}
+
+.pr-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.pr-error {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.pr-empty {
+  border: 1px dashed #d9e5ef;
+  border-radius: 14px;
+  padding: 24px;
+  color: #64748b;
+  text-align: center;
+  background: #fbfdfe;
+}
+
+.pr-historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pr-historyItem {
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #dbe4ee;
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pr-historyItem:hover {
+  background: #f7fdfd;
+  border-color: rgba(14, 165, 164, 0.22);
+}
+
+.pr-historyItem.selected {
+  border-color: #0ea5a4;
+  box-shadow: 0 0 0 2px rgba(14, 165, 164, 0.10);
+}
+
+.pr-historyTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.pr-historyTop strong {
+  color: #0f172a;
+}
+
+.pr-historyTop span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.pr-historyMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.pr-historyPreview {
+  margin: 0;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.pr-viewHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pr-viewHeader strong {
+  color: #0f172a;
+}
+
+.pr-viewHeader span {
+  color: #64748b;
+}
+
+.pr-viewMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.pr-viewContent {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  border: 1px solid #e6eef5;
+  border-radius: 14px;
+  padding: 16px;
+  background: #fbfeff;
+  min-height: 320px;
+  color: #1e293b;
+}
+
+@media (max-width: 1100px) {
+  .pr-grid,
+  .pr-historyWrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .pr-head,
+  .pr-patientCard,
+  .pr-historyTop,
+  .pr-viewHeader,
+  .pr-meta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pr-chakraGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-patientSessions {
+    text-align: left;
+  }
+}

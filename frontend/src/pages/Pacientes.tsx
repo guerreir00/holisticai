@@ -38,6 +38,7 @@ export function PacientesPage() {
   async function load() {
     setLoading(true);
     setErr(null);
+
     try {
       const data = await listarPacientes();
       setPacientes(data);
@@ -52,8 +53,6 @@ export function PacientesPage() {
     load();
   }, []);
 
-  // ✅ Quando voltar do /pacientes/novo com um paciente criado,
-  // coloca no topo e limpa o state pra não duplicar no refresh.
   useEffect(() => {
     const created = state?.createdPaciente;
     if (!created) return;
@@ -64,16 +63,14 @@ export function PacientesPage() {
       return [created, ...prev];
     });
 
-    // limpa state da navegação
     window.history.replaceState({}, document.title);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state?.createdPaciente]);
 
   const filtrados = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return pacientes;
 
-    return pacientes.filter((p: any) => {
+    return pacientes.filter((p) => {
       const nome = (p.nome ?? "").toLowerCase();
       const terapia = (p.terapia ?? "").toLowerCase();
       return nome.includes(q) || terapia.includes(q);
@@ -104,29 +101,29 @@ export function PacientesPage() {
       {err && <div className="pc-error">{String(err)}</div>}
 
       {loading ? (
-        <div style={{ padding: 12, color: "#666" }}>Carregando...</div>
+        <div className="pc-loading">Carregando...</div>
       ) : (
         <div className="pc-grid">
-          {filtrados.map((p: any) => (
+          {filtrados.map((p) => (
             <div key={p.id} className="pc-card">
               <div className="pc-cardTop">
-                <div className="pc-avatar">{(p.nome?.[0] ?? "P").toUpperCase()}</div>
+                <div className="pc-avatar">
+                  {(p.nome?.[0] ?? "P").toUpperCase()}
+                </div>
 
                 <div className="pc-info">
                   <strong>{p.nome}</strong>
                   <span>{p.terapia ? p.terapia : p.email ?? ""}</span>
                 </div>
 
-                <div className={statusClass(p.status)}>{p.status ?? "Ativo"}</div>
+                <div className={statusClass(p.status)}>
+                  {p.status ?? "Ativo"}
+                </div>
               </div>
 
               <div className="pc-meta">
-                <div className="pc-metaRow">
-                  <span>✉</span> <span>{p.email ?? "-"}</span>
-                </div>
-                <div className="pc-metaRow">
-                  <span>📞</span> <span>{p.telefone ?? "-"}</span>
-                </div>
+                <div className="pc-metaRow">✉ {p.email ?? "-"}</div>
+                <div className="pc-metaRow">📞 {p.telefone ?? "-"}</div>
               </div>
 
               <div className="pc-cardBody">
@@ -135,18 +132,24 @@ export function PacientesPage() {
                   <div>{formatDateBR(p.ultimaVisita)}</div>
                 </div>
 
-                <div style={{ textAlign: "right" }}>
+                <div className="pc-sessoes">
                   <small>Sessões</small>
-                  <div>{p.totalSessoes ?? 0}</div>
+                  <div>{(p as any).totalSessoes ?? 0}</div>
                 </div>
               </div>
 
               <div className="pc-cardActions">
-                <button className="pc-secondaryBtn" onClick={() => nav(`/pacientes/${p.id}/cadastro`)}>
+                <button
+                  className="pc-secondaryBtn"
+                  onClick={() => nav(`/pacientes/${p.id}/prontuario`)}
+                >
                   Prontuário
                 </button>
 
-                <button className="pc-outlineBtn" onClick={() => nav(`/pacientes/${p.id}/cadastro`)}>
+                <button
+                  className="pc-outlineBtn"
+                  onClick={() => nav(`/pacientes/${p.id}/cadastro`)}
+                >
                   Editar
                 </button>
               </div>

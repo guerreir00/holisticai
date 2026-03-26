@@ -59,8 +59,7 @@ export default function PacienteNovoPage() {
     setSaving(true);
 
     try {
-      // 1) cria paciente básico
-      const created = await criarPaciente({
+      const payloadPaciente: PacienteCreateDto = {
         nome: form.nome.trim(),
         email: form.email?.trim() || null,
         telefone: form.telefone?.trim() || null,
@@ -68,10 +67,15 @@ export default function PacienteNovoPage() {
         terapia: form.terapia?.trim() || null,
         status: form.status || "Ativo",
         observacoes: form.observacoes?.trim() || null,
-      });
+      };
 
-      // 2) salva cadastro detalhado
-      await api.post(`/api/pacientes/${created.id}/cadastro`, {
+      const created = await criarPaciente(payloadPaciente);
+
+      if (!created?.id) {
+        throw new Error("Paciente não foi criado corretamente.");
+      }
+
+      const payloadCadastroDetalhado = {
         cpf: form.cpf?.trim() || null,
         endereco: form.endereco?.trim() || null,
         estadoCivil: form.estadoCivil?.trim() || null,
@@ -83,15 +87,16 @@ export default function PacienteNovoPage() {
         familiaOrigem: form.familiaDeOrigem?.trim() || null,
         rotinaAtual: form.rotinaAtual?.trim() || null,
         saudeMedicacao: form.saudeMedicacao?.trim() || null,
-      });
+      };
 
-      // 3) volta pra lista com o paciente recém-criado
+      await api.post(`/api/pacientes/${created.id}/cadastro`, payloadCadastroDetalhado);
+
       nav("/pacientes", {
         replace: true,
         state: { createdPaciente: created },
       });
     } catch (e: any) {
-      setErr(e?.response?.data ?? "Erro ao salvar cadastro.");
+      setErr(e?.response?.data ?? e?.message ?? "Erro ao salvar cadastro.");
     } finally {
       setSaving(false);
     }
@@ -102,7 +107,7 @@ export default function PacienteNovoPage() {
       <div className="pn-top">
         <div>
           <h1 className="pn-title">Novo Paciente</h1>
-          <p className="pn-sub">Preencha as informações completas do paciente</p>
+          <p className="pn-sub">Cadastre o paciente e registre sua anamnese inicial</p>
         </div>
 
         <button
@@ -118,7 +123,9 @@ export default function PacienteNovoPage() {
       <form onSubmit={onSubmit} className="pn-card">
         <div className="pn-cardHeader">
           <div className="pn-cardTitle">Cadastro Completo do Paciente</div>
-          <div className="pn-cardDesc">Informações detalhadas para anamnese holística</div>
+          <div className="pn-cardDesc">
+            Informações pessoais e histórico inicial para o cuidado clínico
+          </div>
         </div>
 
         <div className="pn-sectionTitle">Dados Pessoais</div>
@@ -258,7 +265,7 @@ export default function PacienteNovoPage() {
           </label>
         </div>
 
-        <label className="pn-label" style={{ maxWidth: 420 }}>
+        <label className="pn-label pn-max420">
           Data de Início do Tratamento
           <input
             className="pn-input"
@@ -290,7 +297,7 @@ export default function PacienteNovoPage() {
             rows={3}
             value={form.motivoPrincipal ?? ""}
             onChange={(e) => setForm((s) => ({ ...s, motivoPrincipal: e.target.value }))}
-            placeholder="Por que o paciente buscou a terapia holística?"
+            placeholder="Por que o paciente buscou atendimento?"
           />
         </label>
 
@@ -312,7 +319,7 @@ export default function PacienteNovoPage() {
             rows={3}
             value={form.rotinaAtual ?? ""}
             onChange={(e) => setForm((s) => ({ ...s, rotinaAtual: e.target.value }))}
-            placeholder="Descreva o dia a dia, hábitos, atividades..."
+            placeholder="Descreva o dia a dia, hábitos e atividades..."
           />
         </label>
 
