@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using HolisticAI.API.Services.AI;
+using HolisticAI.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
+builder.Services.AddScoped<IAService>();
 
 // ==========================
 // JWT (Options Pattern)
@@ -106,6 +110,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddScoped<IProntuarioIaService, ProntuarioIaService>();
+
 var app = builder.Build();
 
 // MVP: cria DB no dev
@@ -129,3 +135,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.Run();
+
+

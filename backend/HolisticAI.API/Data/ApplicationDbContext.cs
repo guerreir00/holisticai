@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<User> Users => Set<User>();
     public DbSet<CadastroPacienteDetalhado> CadastrosDetalhados => Set<CadastroPacienteDetalhado>();
+    public DbSet<ProntuarioRegistro> Prontuarios => Set<ProntuarioRegistro>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -51,5 +52,31 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<CadastroPacienteDetalhado>()
             .HasIndex(c => c.PacienteId)
             .IsUnique();
+
+            modelBuilder.Entity<ProntuarioRegistro>()
+    .HasOne(p => p.Paciente)
+    .WithMany(x => x.Prontuarios)
+    .HasForeignKey(p => p.PacienteId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+modelBuilder.Entity<ProntuarioRegistro>()
+    .Property(p => p.Tipo)
+    .HasMaxLength(50);
+
+modelBuilder.Entity<ProntuarioRegistro>()
+    .Property(p => p.Titulo)
+    .HasMaxLength(150);
+
+modelBuilder.Entity<ProntuarioRegistro>()
+    .Property(p => p.ModeloIa)
+    .HasMaxLength(100);
+
+modelBuilder.Entity<ProntuarioRegistro>()
+    .Property(p => p.TerapiaAplicada)
+    .HasMaxLength(100);
+
+modelBuilder.Entity<ProntuarioRegistro>()
+    .Property(p => p.CriadoPorNome)
+    .HasMaxLength(150);
     }
 }

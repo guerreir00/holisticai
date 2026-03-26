@@ -33,21 +33,62 @@ public class CadastroPacienteController : ControllerBase
         string? SaudeMedicacao
     );
 
+    public record CadastroPacienteDetalhadoResponseDto(
+        int Id,
+        int PacienteId,
+        string? CPF,
+        string? Endereco,
+        string? EstadoCivil,
+        string? Religiao,
+        string? Profissao,
+        string? VeioAtravesDe,
+        DateTime? DataInicioTratamento,
+        string? MotivoPrincipal,
+        string? FamiliaOrigem,
+        string? RotinaAtual,
+        string? SaudeMedicacao,
+        DateTime DataCadastro,
+        DateTime? DataAtualizacao
+    );
+
     [HttpGet]
     public async Task<IActionResult> Get(int pacienteId)
     {
         var tenantId = UserContext.GetTenantId(User);
 
         var paciente = await _db.Pacientes
+            .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == pacienteId && p.TenantId == tenantId);
 
         if (paciente is null)
             return NotFound("Paciente não encontrado.");
 
         var cadastro = await _db.CadastrosDetalhados
+            .AsNoTracking()
             .FirstOrDefaultAsync(c => c.PacienteId == pacienteId);
 
-        return Ok(cadastro);
+        if (cadastro is null)
+            return Ok(null);
+
+        var response = new CadastroPacienteDetalhadoResponseDto(
+            cadastro.Id,
+            cadastro.PacienteId,
+            cadastro.CPF,
+            cadastro.Endereco,
+            cadastro.EstadoCivil,
+            cadastro.Religiao,
+            cadastro.Profissao,
+            cadastro.VeioAtravesDe,
+            cadastro.DataInicioTratamento,
+            cadastro.MotivoPrincipal,
+            cadastro.FamiliaOrigem,
+            cadastro.RotinaAtual,
+            cadastro.SaudeMedicacao,
+            cadastro.DataCadastro,
+            cadastro.DataAtualizacao
+        );
+
+        return Ok(response);
     }
 
     [HttpPost]
@@ -86,7 +127,25 @@ public class CadastroPacienteController : ControllerBase
             _db.CadastrosDetalhados.Add(novoCadastro);
             await _db.SaveChangesAsync();
 
-            return Ok(novoCadastro);
+            var responseNovo = new CadastroPacienteDetalhadoResponseDto(
+                novoCadastro.Id,
+                novoCadastro.PacienteId,
+                novoCadastro.CPF,
+                novoCadastro.Endereco,
+                novoCadastro.EstadoCivil,
+                novoCadastro.Religiao,
+                novoCadastro.Profissao,
+                novoCadastro.VeioAtravesDe,
+                novoCadastro.DataInicioTratamento,
+                novoCadastro.MotivoPrincipal,
+                novoCadastro.FamiliaOrigem,
+                novoCadastro.RotinaAtual,
+                novoCadastro.SaudeMedicacao,
+                novoCadastro.DataCadastro,
+                novoCadastro.DataAtualizacao
+            );
+
+            return Ok(responseNovo);
         }
 
         existente.CPF = dto.CPF;
@@ -104,6 +163,24 @@ public class CadastroPacienteController : ControllerBase
 
         await _db.SaveChangesAsync();
 
-        return Ok(existente);
+        var responseExistente = new CadastroPacienteDetalhadoResponseDto(
+            existente.Id,
+            existente.PacienteId,
+            existente.CPF,
+            existente.Endereco,
+            existente.EstadoCivil,
+            existente.Religiao,
+            existente.Profissao,
+            existente.VeioAtravesDe,
+            existente.DataInicioTratamento,
+            existente.MotivoPrincipal,
+            existente.FamiliaOrigem,
+            existente.RotinaAtual,
+            existente.SaudeMedicacao,
+            existente.DataCadastro,
+            existente.DataAtualizacao
+        );
+
+        return Ok(responseExistente);
     }
 }

@@ -11,5 +11,16 @@ public static class UserContext
             throw new Exception("TenantId não encontrado no token.");
 
         return Guid.Parse(claim.Value);
+        
     }
+
+     public static int GetUserId(ClaimsPrincipal user)
+    {
+        var userId = user.FindFirst("userId")?.Value;
+
+        if (string.IsNullOrWhiteSpace(userId) || !int.TryParse(userId, out var parsed))
+            throw new UnauthorizedAccessException("UserId inválido ou ausente.");
+
+        return parsed;
+    }    
 }

@@ -28,4 +28,5 @@ public class Paciente
     // 🔥 RELAÇÃO COM SESSÕES
     public ICollection<Sessao> Sessoes { get; set; } = new List<Sessao>();
     public CadastroPacienteDetalhado? CadastroDetalhado { get; set; }
+    public ICollection<ProntuarioRegistro> Prontuarios { get; set; } = new List<ProntuarioRegistro>();
 }
