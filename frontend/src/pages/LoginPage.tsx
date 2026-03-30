@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import { setAuth } from "../auth/authStore";
 import logoCliniMind from "../assets/clinimind-logo.jpeg";
@@ -24,9 +24,15 @@ export default function LoginPage() {
     try {
       const data = await login(email, password);
       setAuth(data.token, data.user);
-      nav("/dashboard");
+      nav("/dashboard", { replace: true });
     } catch (err: any) {
-      setError(err?.response?.data ?? "Falha no login.");
+      const apiMessage =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        err?.message ||
+        "Falha no login.";
+
+      setError(String(apiMessage));
     } finally {
       setLoading(false);
     }
@@ -108,12 +114,12 @@ export default function LoginPage() {
               Lembrar-me
             </label>
 
-            <button className="lg-link" type="button" disabled>
+            <Link className="lg-link" to="/esqueci-minha-senha">
               Esqueci a senha
-            </button>
+            </Link>
           </div>
 
-          {error && <div className="lg-error">{String(error)}</div>}
+          {error && <div className="lg-error">{error}</div>}
 
           <button className="lg-submit" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
@@ -124,7 +130,10 @@ export default function LoginPage() {
           </div>
 
           <div className="lg-bottom">
-            Não tem uma conta? <span className="lg-bottomLink">Criar conta gratuita</span>
+            Não tem uma conta?{" "}
+            <Link to="/cadastro-terapeuta" className="lg-bottomLink">
+              Criar conta gratuita
+            </Link>
           </div>
 
           <div className="lg-footer">

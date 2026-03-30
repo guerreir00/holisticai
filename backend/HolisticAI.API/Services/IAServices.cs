@@ -8,8 +8,13 @@ public class IAService
 
     public IAService(IConfiguration configuration)
     {
-        _apiKey = configuration["OpenAI:ApiKey"]
-            ?? throw new InvalidOperationException("OpenAI:ApiKey não configurada.");
+        _apiKey = configuration["OpenAI:ApiKey"] ?? "";
+
+        if (string.IsNullOrWhiteSpace(_apiKey))
+            throw new InvalidOperationException("OpenAI:ApiKey não configurada.");
+
+        if (_apiKey == "USE_ENVIRONMENT_VARIABLE")
+            throw new InvalidOperationException("OpenAI:ApiKey está com valor placeholder. Configure a variável de ambiente.");
     }
 
     public async Task<string> GerarProntuarioAsync(
@@ -26,7 +31,7 @@ Você é um terapeuta holístico experiente e especialista em documentação cl�
 
 Sua função é gerar um prontuário profissional, claro, objetivo e ético, baseado EXCLUSIVAMENTE nas informações fornecidas.
 
-⚠️ REGRAS IMPORTANTES:
+REGRAS IMPORTANTES:
 - NÃO invente informações
 - NÃO extrapole além do que foi informado
 - NÃO utilize linguagem mística exagerada
@@ -45,37 +50,31 @@ Relato inicial do paciente:
 Percepção energética do terapeuta:
 {estadoEnergetico}
 
----
-
 Gere o prontuário no seguinte formato:
 
-## 📝 Resumo da Sessão
+## Resumo da Sessão
 Resumo objetivo do atendimento realizado, incluindo foco principal da sessão.
 
-## ⚡ Análise Energética
+## Análise Energética
 Descreva de forma técnica a leitura energética do paciente, baseada no relato fornecido.
 
-## 🛠️ Intervenções Realizadas
+## Intervenções Realizadas
 Liste claramente as técnicas utilizadas durante a sessão.
 
-## 📌 Recomendações
-Sugestões práticas para o paciente (ex: hábitos, frequência de sessões, cuidados).
+## Recomendações
+Sugestões práticas para o paciente.
 
-## 📈 Evolução do Paciente
+## Evolução do Paciente
 Avaliação da resposta ao atendimento e próximos passos terapêuticos.
-
----
 
 Seja claro, profissional e objetivo.
 ";
 
-        ChatMessage[] mensagens =
-        [
+        var response = await client.CompleteChatAsync(new ChatMessage[]
+        {
             new SystemChatMessage("Você é um profissional experiente em documentação clínica terapêutica."),
             new UserChatMessage(prompt)
-        ];
-
-        var response = await client.CompleteChatAsync(mensagens);
+        });
 
         var completion = response.Value;
 

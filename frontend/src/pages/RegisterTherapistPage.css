@@ -1,0 +1,392 @@
+.register-therapist-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #edf8fb 0%, #f7fbfc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  box-sizing: border-box;
+}
+
+.register-therapist-card {
+  width: 100%;
+  max-width: 760px;
+  background: #ffffff;
+  border: 1px solid #d9eef2;
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(9, 86, 118, 0.08);
+  padding: 32px 28px 24px;
+  box-sizing: border-box;
+}
+
+.register-therapist-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.register-therapist-logo {
+  width: 88px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.register-therapist-title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #0d4f84;
+}
+
+.register-therapist-subtitle {
+  margin: 12px 0 18px;
+  font-size: 1rem;
+  color: #35739a;
+}
+
+.register-therapist-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #0d7fa0 0%, #119db2 100%);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 12px;
+}
+
+.register-therapist-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.step-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #f3f6f8;
+  color: #7a8b98;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 600;
+  border: 1px solid #e0eaee;
+}
+
+.step-item.active {
+  background: #dff4f8;
+  color: #0c6f99;
+  border-color: #b6e7ef;
+}
+
+.step-item.done {
+  background: #dbf4e7;
+  color: #1c8460;
+  border-color: #b7e7d0;
+}
+
+.step-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #cfd8df;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.step-item.active .step-badge {
+  background: linear-gradient(90deg, #0d7fa0 0%, #119db2 100%);
+}
+
+.step-item.done .step-badge {
+  background: #1c8460;
+}
+
+.step-line {
+  width: 32px;
+  height: 1px;
+  background: #cfd8df;
+}
+
+.register-therapist-form {
+  width: 100%;
+}
+
+.register-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: #243746;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid #d9e3e8;
+  background: #f8fbfc;
+  padding: 0 16px;
+  font-size: 0.98rem;
+  color: #243746;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #0f9bb1;
+  box-shadow: 0 0 0 4px rgba(15, 155, 177, 0.12);
+  background: #ffffff;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  padding-right: 96px;
+}
+
+.toggle-password-button {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #0c7e95;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggle-password-button:hover {
+  opacity: 0.85;
+}
+
+.field-help {
+  font-size: 0.82rem;
+  color: #7a8b98;
+}
+
+.field-error {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #d14b4b;
+}
+
+.terms-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid #bfe4ea;
+  background: #f3fcfd;
+  border-radius: 14px;
+  padding: 16px;
+  color: #28414d;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.terms-box input {
+  margin-top: 3px;
+}
+
+.terms-box a {
+  color: #0d7fa0;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.terms-box a:hover {
+  text-decoration: underline;
+}
+
+.terms-box.has-error {
+  border-color: #e6a7a7;
+  background: #fff6f6;
+}
+
+.terms-error {
+  margin-top: -8px;
+}
+
+.register-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.register-primary-button,
+.register-secondary-button {
+  height: 54px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-primary-button {
+  border: none;
+  background: linear-gradient(90deg, #0d4f84 0%, #119db2 100%);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(17, 157, 178, 0.18);
+}
+
+.register-primary-button:hover {
+  transform: translateY(-1px);
+}
+
+.register-primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.register-secondary-button {
+  border: 1px solid #d9e3e8;
+  background: #ffffff;
+  color: #243746;
+}
+
+.register-secondary-button:hover {
+  background: #f8fbfc;
+}
+
+.form-message {
+  margin-top: 18px;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.form-message.error {
+  background: #fff5f5;
+  border: 1px solid #efc0c0;
+  color: #b13d3d;
+}
+
+.form-message.success {
+  background: #effcf5;
+  border: 1px solid #b8e8c8;
+  color: #23784d;
+}
+
+.register-benefits-card {
+  margin-top: 28px;
+  background: #f3f8fc;
+  border: 1px solid #cfe0f2;
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+}
+
+.register-benefits-card h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  color: #0d4f84;
+}
+
+.register-benefits-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #2a4f6b;
+  line-height: 1.8;
+  font-size: 0.92rem;
+}
+
+.register-footer {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: #70808d;
+  flex-wrap: wrap;
+}
+
+.register-footer a {
+  color: #0d7fa0;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .register-therapist-card {
+    padding: 24px 18px 20px;
+    border-radius: 20px;
+  }
+
+  .register-therapist-title {
+    font-size: 1.7rem;
+  }
+
+  .form-row,
+  .register-actions-row {
+    grid-template-columns: 1fr;
+  }
+
+  .register-therapist-stepper {
+    gap: 10px;
+  }
+
+  .step-line {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-therapist-page {
+    padding: 20px 12px;
+  }
+
+  .register-therapist-title {
+    font-size: 1.45rem;
+  }
+
+  .register-therapist-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .step-item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .register-therapist-badge {
+    width: 100%;
+  }
+}

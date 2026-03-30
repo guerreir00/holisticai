@@ -1,12 +1,12 @@
 using HolisticAI.API.Data;
 using HolisticAI.API.Infrastructure;
+using HolisticAI.API.Services;
+using HolisticAI.API.Services.AI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using HolisticAI.API.Services.AI;
-using HolisticAI.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,26 +29,25 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Services
 builder.Services.AddScoped<IAService>();
+builder.Services.AddScoped<IProntuarioIaService, ProntuarioIaService>();
 
-// ==========================
-// JWT (Options Pattern)
-// ==========================
+// JWT
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
 var jwt = builder.Configuration.GetSection("Jwt").Get<JwtSettings>()
-          ?? throw new InvalidOperationException("Seção Jwt não encontrada (appsettings/UserSecrets).");
+          ?? throw new InvalidOperationException("Seção Jwt não encontrada.");
 
 if (string.IsNullOrWhiteSpace(jwt.Key))
-    throw new InvalidOperationException("Jwt:Key não configurado (adicione em User Secrets).");
+    throw new InvalidOperationException("Jwt:Key não configurado.");
 
 if (string.IsNullOrWhiteSpace(jwt.Issuer))
-    throw new InvalidOperationException("Jwt:Issuer não configurado no appsettings.json");
+    throw new InvalidOperationException("Jwt:Issuer não configurado.");
 
 if (string.IsNullOrWhiteSpace(jwt.Audience))
-    throw new InvalidOperationException("Jwt:Audience não configurado no appsettings.json");
+    throw new InvalidOperationException("Jwt:Audience não configurado.");
 
-// AuthN + AuthZ
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -57,28 +56,25 @@ builder.Services
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
-
             ValidateIssuer = true,
             ValidIssuer = jwt.Issuer,
-
             ValidateAudience = true,
             ValidAudience = jwt.Audience,
-
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(2)
         };
     });
 
 builder.Services.AddAuthorization(options =>
-    {   
-        options.AddPolicy("OwnerOnly", policy =>
-            policy.RequireRole("Owner"));
+{
+    options.AddPolicy("OwnerOnly", policy =>
+        policy.RequireRole("Owner"));
 
-        options.AddPolicy("OwnerOrSecretary", policy =>
-            policy.RequireRole("Owner", "Secretary"));
-    });
+    options.AddPolicy("OwnerOrSecretary", policy =>
+        policy.RequireRole("Owner", "Secretary"));
+});
 
-// Swagger + Bearer
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -110,8 +106,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddScoped<IProntuarioIaService, ProntuarioIaService>();
-
 var app = builder.Build();
 
 // MVP: cria DB no dev
@@ -129,11 +123,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("frontend");
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
+
 app.Run();
-
-
